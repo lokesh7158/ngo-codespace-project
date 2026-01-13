@@ -1,29 +1,47 @@
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import UserDashboard from "./pages/UserDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import RegistrationForm from "./pages/RegistrationForm";
+import Donation from "./pages/Donation";
+import ProtectedRoute from "./routes/ProtectedRoute";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src="Octocat.png" className="App-logo" alt="logo" />
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
-        <p className="small">
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/user" element={
+          <ProtectedRoute role="USER">
+            <UserDashboard />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/admin" element={
+          <ProtectedRoute role="ADMIN">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/ngo-registration" element={
+          <ProtectedRoute role="USER">
+            <RegistrationForm />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/donate" element={
+          <ProtectedRoute role="USER">
+            <Donation />
+          </ProtectedRoute>
+        } />
+
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
